@@ -1,8 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<html>
-  <head>
-    <title>Title</title>
-  </head>
+
   <body>
     <h1>Java Web</h1>
     <h2>JSP</h2>
@@ -62,6 +59,3 @@
         }
       %>
     </table>
-
-  </body>
-</html>
