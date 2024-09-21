@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import itstep.learning.services.formparse.FormParseResult;
 import itstep.learning.services.formparse.FormParseService;
+import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Singleton
 public class SignupServlet extends HttpServlet
@@ -32,6 +34,19 @@ public class SignupServlet extends HttpServlet
     protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
     {
         FormParseResult res = formParseService.parse(req);
-        System.out.println( res.getFields().size() + " " + res.getFiles().size() );
+        Map<String, String> fields = res.getFields();
+        Map<String, FileItem> files = res.getFiles();
+
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            req.setAttribute(entry.getKey(), entry.getValue());
+        }
+
+        if (!files.isEmpty()) {
+            FileItem fileItem = files.values().iterator().next();  // Получаем первый файл
+            req.setAttribute("fileName", fileItem.getName());
+            req.setAttribute("fileSize", fileItem.getSize());
+        }
+
+        req.getRequestDispatcher("WEB-INF/views/signupResult.jsp").forward(req, resp);
     }
 }
