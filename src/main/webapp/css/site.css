@@ -11,6 +11,12 @@ body {
     font-size: xx-large;
     margin: 0 20px;
 }
+
+.site-logo img{
+    margin-top: 10px;
+    width: 40px;
+}
+
 .nav-addon {
     font-size: larger;
     margin-right: 20px;

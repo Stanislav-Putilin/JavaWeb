@@ -17,7 +17,14 @@
 <header>
   <nav>
     <div class="nav-wrapper brown lighten-2">
-      <a href="<%=contextPath%>" class="site-logo left">PV-221</a>
+
+
+
+      <a href="<%=contextPath%>" class="site-logo left">
+        <img src="<%= contextPath %>/img/20.png" alt="Logo">
+        PV-221
+      </a>
+
       <ul id="nav-mobile" class="left">
         <li class="<%= pageName.equals("home") ? "active" : "" %>">
           <a href="<%=contextPath%>">Home</a>
