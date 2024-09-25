@@ -2,6 +2,7 @@ package itstep.learning.servlets;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import itstep.learning.dal.dao.UserDao;
 import itstep.learning.services.hash.HashService;
 
 import javax.inject.Named;
@@ -16,11 +17,14 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet {
 
     private final HashService hashService;
+    private final UserDao userDao;
 
     @Inject
-    public HomeServlet(@Named("digest") HashService hashService) {
+    public HomeServlet(@Named("digest") HashService hashService, UserDao userDao) {
         this.hashService = hashService;
+        this.userDao = userDao;
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,6 +32,7 @@ public class HomeServlet extends HttpServlet {
 
         req.setAttribute( "page", "home" );
         req.setAttribute( "hash", hashService.digest("123") );
+        req.setAttribute( "tables", userDao.installTables() ? "Tables OK" : "Tables Fail" );
 
         if (controlPassed != null && controlPassed) {
             req.setAttribute("controlStatus", "Контроль пройден");

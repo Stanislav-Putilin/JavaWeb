@@ -16,11 +16,10 @@ public class WorkerWithFile implements ReadingFile{
         Map<String,String> data = new HashMap<>();
 
         try {
-            String jarDir = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-            File iniFile = new File(jarDir, "db.ini");
+            ClassLoader classLoader = WorkerWithFile.class.getClassLoader();
 
-            if (iniFile.isFile()) {
-                try (InputStream rs = new FileInputStream(iniFile)) {
+
+                try (InputStream rs = classLoader.getResourceAsStream("db.ini")) {
                     String content = readStream(rs);
                     String[] lines = content.split("\n");
                     Map<String, String> ini = new HashMap<>();
@@ -40,9 +39,6 @@ public class WorkerWithFile implements ReadingFile{
                     data.put("user", ini.get("user"));
                     data.put("password", ini.get("password"));
                 }
-            } else {
-                System.err.println("Файл db.ini не найден.");
-            }
         } catch (Exception ex) {
             System.err.println("Ошибка при чтении файла: " + ex.getMessage());
         }
